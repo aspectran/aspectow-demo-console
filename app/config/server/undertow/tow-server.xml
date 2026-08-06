@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectran PUBLIC "-//ASPECTRAN//DTD Aspectran 9.0//EN"
+        "https://aspectran.com/dtd/aspectran-9.dtd">
+<aspectran>
+
+    <description>
+        Aspectran configuration for setting up an Undertow server.
+    </description>
+
+    <environment>
+        <property name="tow.server.listener.http.port" valueType="int">8082</property>
+        <property name="tow.server.listener.http.host">0.0.0.0</property>
+        <properties profile="prod">
+            <item name="tow.server.domain">aspectran.com</item>
+        </properties>
+    </environment>
+
+    <environment>
+        <description>
+            Undertow uses XNIO as the default connector. XNIO can be configured through the following settings:
+            - workerIoThreads: which is the number of IO threads to create. These threads are shared between multiple
+            connections therefore they mustn’t perform blocking operations as while the operation is blocking,
+            other connections will essentially hang. If not specified, a default will be chosen, which is
+            calculated by Math.max(Runtime.getRuntime().availableProcessors(), 2).
+            - workerTaskMaxThreads: This is the maximum number workers allowed to run blocking tasks such as Servlet
+            requests. In general terms, the default value of it (workerIoThreads * 8) is reasonable default for
+            most cases. If you see that new requests are being queued up, you should investigate the cause of it.
+            If your application is working as expected, then you should increase this task-max-threads parameter.
+        </description>
+        <properties profile="(!stage, !prod)">
+            <item name="tow.server.workerIoThreads" valueType="int">4</item>
+            <item name="tow.server.workerTaskMaxThreads" valueType="int">32</item>
+        </properties>
+        <properties profile="stage, prod">
+            <item name="tow.server.workerIoThreads" valueType="int">8</item>
+            <item name="tow.server.workerTaskMaxThreads" valueType="int">64</item>
+        </properties>
+    </environment>
+
+    <bean id="tow.server" class="com.aspectran.undertow.server.DefaultTowServer">
+        <property name="httpListeners" type="array">
+            <bean class="com.aspectran.undertow.server.HttpListenerConfig">
+                <property name="port" valueType="int">%{tow.server.listener.http.port}</property>
+                <property name="host">%{tow.server.listener.http.host}</property>
+            </bean>
+        </property>
+        <property name="serverOptions">
+            <bean class="com.aspectran.undertow.server.TowOptions">
+                <property name="decodeUrl" valueType="boolean">true</property>
+                <property name="urlCharset">UTF-8</property>
+            </bean>
+        </property>
+        <property name="workerOptions">
+            <bean class="com.aspectran.undertow.server.TowOptions">
+                <property name="workerName">TOW</property>
+                <property name="workerIoThreads">%{tow.server.workerIoThreads}</property>
+                <property name="workerTaskMaxThreads">%{tow.server.workerTaskMaxThreads}</property>
+            </bean>
+        </property>
+        <property name="requestHandlerFactory">
+            <bean class="com.aspectran.undertow.server.handler.ServletRequestHandlerFactory">
+                <property name="handlerChainWrappers" type="array">
+                    <value>#{tow.server.handler.encodingHandlerWrapper}</value>
+                    <value>#{tow.server.handler.accessLogHandlerWrapper}</value>
+                    <value>#{tow.server.handler.loggingGroupHandlerWrapper}</value>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="tow.server.handler.encodingHandlerWrapper"
+          class="com.aspectran.undertow.server.handler.encoding.EncodingHandlerWrapper"
+          scope="prototype">
+        <property name="encodingProviders" type="array">
+            <value>gzip</value>
+        </property>
+        <property name="encodingPredicates" type="array">
+            <bean class="com.aspectran.undertow.server.handler.encoding.ContentEncodingPredicates">
+                <property name="mediaTypes" type="array">
+                    <value>text/html</value>
+                    <value>text/css</value>
+                    <value>text/javascript</value>
+                    <value>application/javascript</value>
+                </property>
+            </bean>
+            <bean class="com.aspectran.undertow.server.handler.encoding.ContentEncodingPredicates">
+                <property name="contentSizeLargerThan" valueType="long">32</property>
+                <property name="mediaTypes" type="array">
+                    <value>text/xml</value>
+                    <value>text/plain</value>
+                    <value>application/json</value>
+                    <value>application/xml</value>
+                    <value>application/apon</value>
+                </property>
+            </bean>
+        </property>
+    </bean>
+
+    <bean id="tow.server.handler.loggingGroupHandlerWrapper"
+          class="com.aspectran.undertow.server.handler.logging.PathBasedLoggingGroupHandlerWrapper"
+          scope="prototype">
+        <property name="pathPatternsByGroupName" type="map">
+            <entry name="console">
+                +: /console/**
+            </entry>
+        </property>
+    </bean>
+
+    <bean id="tow.server.handler.accessLogHandlerWrapper"
+          class="com.aspectran.undertow.server.handler.accesslog.AccessLogHandlerWrapper"
+          scope="prototype">
+        <property name="category">io.undertow.accesslog</property>
+        <properties profile="prod">
+            <item name="formatString" tokenize="false">%t %{i,X-Forwarded-For} %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</item>
+        </properties>
+        <properties profile="!prod">
+            <item name="formatString" tokenize="false">%t %a %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</item>
+        </properties>
+    </bean>
+
+</aspectran>

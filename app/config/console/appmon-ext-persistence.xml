@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectran PUBLIC "-//ASPECTRAN//DTD Aspectran 9.0//EN"
+        "https://aspectran.com/dtd/aspectran-9.dtd">
+<aspectran>
+
+    <description>
+        Provides external persistence layer for AppMon using local MariaDB and Supabase.
+    </description>
+
+    <!-- Properties -->
+    <bean id="supabaseDBProperties" class="com.aspectran.core.support.PropertiesFactoryBean">
+        <property name="ignoreInvalidResource" valueType="boolean">false</property>
+        <property name="locations" type="array">
+            <value>/config/console/aspectow-console.db-supabase.properties</value>
+        </property>
+    </bean>
+
+    <!-- Session Factories -->
+    <bean id="supabaseSqlSessionFactory" class="com.aspectran.mybatis.SqlSessionFactoryBean" lazyDestroy="true">
+        <property name="configLocation" value="classpath:com/aspectran/aspectow/appmon/config/db/mybatis-config.xml"/>
+        <property name="environmentId" value="default"/>
+        <property name="variables" type="properties">
+            <entry name="driver">#{supabaseDBProperties^driver}</entry>
+            <entry name="url">#{supabaseDBProperties^url}</entry>
+            <entry name="username">#{supabaseDBProperties^username}</entry>
+            <entry name="password">#{supabaseDBProperties^password}</entry>
+        </property>
+    </bean>
+
+    <!-- Supabase Persistence Layer -->
+    <bean id="supabaseTxAdvice" class="com.aspectran.mybatis.SqlSessionAdvice" scope="prototype">
+        <argument>#{supabaseSqlSessionFactory}</argument>
+        <property name="autoCommit" valueType="boolean">true</property>
+    </bean>
+
+<!--    <aspect id="supabaseTxAspect">-->
+<!--        <joinpoint>-->
+<!--            pointcut: {-->
+<!--                +: **@supabaseSqlSession-->
+<!--            }-->
+<!--        </joinpoint>-->
+<!--        <advice bean="supabaseTxAdvice">-->
+<!--            <before>-->
+<!--                <invoke method="open"/>-->
+<!--            </before>-->
+<!--            <after>-->
+<!--                <invoke method="commit"/>-->
+<!--            </after>-->
+<!--            <finally>-->
+<!--                <invoke method="close"/>-->
+<!--            </finally>-->
+<!--        </advice>-->
+<!--    </aspect>-->
+
+    <bean id="supabaseSqlSession" class="com.aspectran.aspectow.demo.appmon.HybridAppMonSqlSession">
+        <argument>supabaseTxAspect</argument>
+        <property name="targetBeanId">supabaseSqlSession</property>
+        <property name="sqlSessionFactoryBeanId">supabaseSqlSessionFactory</property>
+    </bean>
+
+    <bean id="supabaseSqlMapperProvider" class="com.aspectran.aspectow.demo.appmon.HybridAppMonSqlMapperProvider" lazyDestroy="true">
+        <argument>#{supabaseSqlSession}</argument>
+    </bean>
+
+    <!-- 3. Hybrid DAO Overriding -->
+    <bean id="appmon.hybridEventCountDao" class="com.aspectran.aspectow.demo.appmon.HybridEventCountDao">
+        <argument>#{appMonSqlMapperProvider}</argument>
+        <argument>#{supabaseSqlMapperProvider}</argument>
+    </bean>
+
+</aspectran>

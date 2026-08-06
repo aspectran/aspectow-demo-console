@@ -1,0 +1,3 @@
+[06/Aug/2026:03:03:02 +0000] 0:0:0:0:0:0:0:1 1xx8umip2hbnt1ifmk4htlnnv30.rn0 "GET / HTTP/1.1" 404 73 "http://localhost:8082/console/user/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
+[06/Aug/2026:03:03:02 +0000] 0:0:0:0:0:0:0:1 1xx8umip2hbnt1ifmk4htlnnv30.rn0 "GET /favicon.ico HTTP/1.1" 200 1150 "http://localhost:8082/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
+[06/Aug/2026:03:03:04 +0000] 0:0:0:0:0:0:0:1 1xx8umip2hbnt1ifmk4htlnnv30.rn0 "GET /favicon.ico HTTP/1.1" 200 1150 "http://localhost:8082/console/user/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:153.0) Gecko/20100101 Firefox/153.0"
