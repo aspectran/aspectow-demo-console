@@ -4347,3 +4347,5 @@ DEBUG 2026-08-06 04:00:00.005 [AppmonScheduler_Worker-1] Translet {name=appmon/p
 DEBUG 2026-08-06 04:00:00.005 [AppmonScheduler_Worker-1] Action {annotated={method=com.aspectran.aspectow.appmon.engine.schedule.CounterPersistSchedule.rollup()}} - c.a.core.activity.CoreActivity.execute(652)
 DEBUG 2026-08-06 04:05:00.001 [AppmonScheduler_Worker-1] Translet {name=appmon/persist/counter/rollup.job} - c.a.core.activity.CoreActivity.prepare(220)
 DEBUG 2026-08-06 04:05:00.002 [AppmonScheduler_Worker-1] Action {annotated={method=com.aspectran.aspectow.appmon.engine.schedule.CounterPersistSchedule.rollup()}} - c.a.core.activity.CoreActivity.execute(652)
+DEBUG 2026-08-06 04:10:00.002 [AppmonScheduler_Worker-1] Translet {name=appmon/persist/counter/rollup.job} - c.a.core.activity.CoreActivity.prepare(220)
+DEBUG 2026-08-06 04:10:00.003 [AppmonScheduler_Worker-1] Action {annotated={method=com.aspectran.aspectow.appmon.engine.schedule.CounterPersistSchedule.rollup()}} - c.a.core.activity.CoreActivity.execute(652)
