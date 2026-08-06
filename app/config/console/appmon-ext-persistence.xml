@@ -52,18 +52,18 @@
 <!--        </advice>-->
 <!--    </aspect>-->
 
-    <bean id="supabaseSqlSession" class="com.aspectran.aspectow.demo.appmon.HybridAppMonSqlSession">
+    <bean id="supabaseSqlSession" class="com.aspectran.aspectow.demo.console.appmon.HybridAppMonSqlSession">
         <argument>supabaseTxAspect</argument>
         <property name="targetBeanId">supabaseSqlSession</property>
         <property name="sqlSessionFactoryBeanId">supabaseSqlSessionFactory</property>
     </bean>
 
-    <bean id="supabaseSqlMapperProvider" class="com.aspectran.aspectow.demo.appmon.HybridAppMonSqlMapperProvider" lazyDestroy="true">
+    <bean id="supabaseSqlMapperProvider" class="com.aspectran.aspectow.demo.console.appmon.HybridAppMonSqlMapperProvider" lazyDestroy="true">
         <argument>#{supabaseSqlSession}</argument>
     </bean>
 
     <!-- 3. Hybrid DAO Overriding -->
-    <bean id="appmon.hybridEventCountDao" class="com.aspectran.aspectow.demo.appmon.HybridEventCountDao">
+    <bean id="appmon.hybridEventCountDao" class="com.aspectran.aspectow.demo.console.appmon.HybridEventCountDao">
         <argument>#{appMonSqlMapperProvider}</argument>
         <argument>#{supabaseSqlMapperProvider}</argument>
     </bean>

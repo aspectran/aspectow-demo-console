@@ -7,7 +7,7 @@ cluster: {
     }
 }
 group: {
-    id: console
-    title: Async Console
+    id: aspectow-demo-console
+    title: Aspectow Demo Console
     description: This group is for Aspectow Demo.
 }

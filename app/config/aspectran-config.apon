@@ -27,6 +27,7 @@ context: {
         /lib/ext
     ]
     scan: [
+        com.aspectran.aspectow.demo.console
     ]
     profiles: {
         default: [
