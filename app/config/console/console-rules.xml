@@ -3,10 +3,13 @@
         "https://aspectran.com/dtd/aspectran-9.dtd">
 <aspectran>
 
-    <!-- Specifies the URL to return to the main portal or home site from the Console UI.
-         Resolves the system property 'aspectow.console.portalUrl'. -->
     <environment>
-        <property name="aspectow.console.portalUrl">%{system:aspectow.console.portalUrl}</property>
+        <properties profile="prod">
+            <item name="aspectow.console.portalUrl">https://public.aspectran.com/</item>
+        </properties>
+        <properties profile="!prod">
+            <item name="aspectow.console.portalUrl">http://localhost:8080/</item>
+        </properties>
     </environment>
 
     <append file="/config/console/node-rules.xml"/>

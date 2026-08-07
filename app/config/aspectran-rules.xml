@@ -34,4 +34,8 @@
         </settings>
     </aspect>
 
+    <translet name="/">
+        <redirect path="/console/"/>
+    </translet>
+
 </aspectran>
