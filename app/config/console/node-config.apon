@@ -11,3 +11,7 @@ group: {
     title: Dev Aspectow Demo Console
     description: This group is for localhost development.
 }
+node: {
+    id: dev-aspectow-demo-console-node1
+    title: Aspectow Demo Console
+}
