@@ -6,7 +6,7 @@ rem This file is called by other batch scripts to configure deployment and
 rem runtime variables.
 
 rem The name of the application. Used for directory names and service names.
-set "APP_NAME=aspectow"
+set "APP_NAME=aspectow-demo-console"
 
 rem The Git repository URL for the application source code.
 set "REPO_URL=https://github.com/aspectran/%APP_NAME%"
