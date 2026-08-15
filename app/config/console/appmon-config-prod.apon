@@ -36,7 +36,7 @@ app: {
 }
 app: {
     id: console-root
-    title: Root
+    title: Console Root
     hidden: true
     event: {
         id: activity
