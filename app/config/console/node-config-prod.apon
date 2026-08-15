@@ -2,6 +2,8 @@
 cluster: {
     id: cluster1
     mode: gateway  # direct or gateway
+    pulseInterval: 15000
+    pulseTimeout: 30000
     scheduler: {
         releasedOnUnlock: false
     }
