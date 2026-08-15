@@ -10,7 +10,7 @@ cluster: {
 }
 group: {
     id: dev-aspectow-demo-console-group1
-    title: Dev Aspectow Demo Console
+    title: Dev Aspectow Demo Console Group
     description: This group is for localhost development.
 }
 node: {

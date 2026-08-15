@@ -10,7 +10,7 @@ cluster: {
 }
 group: {
     id: aspectow-demo-console-group1
-    title: Aspectow Demo Console
+    title: Aspectow Demo Console Group
     description: This group is for Aspectow Demo Console.
 }
 node: {
