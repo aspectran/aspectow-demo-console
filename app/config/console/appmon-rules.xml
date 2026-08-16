@@ -12,6 +12,8 @@
         </properties>
     </bean>
 
+    <bean class="com.aspectran.aspectow.demo.console.support.WhoisIPCountryResolver"/>
+
     <append file="/config/console/appmon-ext-persistence.xml" profile="appmon.ext-persistence"/>
 
 </aspectran>
