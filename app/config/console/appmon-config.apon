@@ -20,6 +20,9 @@ app: {
     event: {
         id: session
         target: tow.server/console
+        parameters: {
+            usernameAttribute: USER_INFO.username
+        }
     }
     log: {
         id: app
