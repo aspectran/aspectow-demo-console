@@ -16,4 +16,5 @@ group: {
 node: {
     id: aspectow-demo-console-node1
     title: Aspectow Demo Console
+    console: true
 }
