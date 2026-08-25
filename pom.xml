@@ -55,7 +55,7 @@
         <maven.compiler.release>21</maven.compiler.release>
         <maven.compiler.parameters>true</maven.compiler.parameters>
 
-        <aspectran.version>9.6.5-SNAPSHOT</aspectran.version>
+        <aspectran.version>9.6.5</aspectran.version>
         <aspectow.console.version>4.0.1-SNAPSHOT</aspectow.console.version>
     </properties>
 
