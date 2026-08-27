@@ -26,5 +26,8 @@ set "DEPLOY_DIR=%BASE_DIR%\app"
 rem A directory for backing up the previous version during an update.
 set "RESTORE_DIR=%BASE_DIR%\app-restore"
 
+rem The process name for the daemon.
+set "PROC_NAME=%APP_NAME%"
+
 rem Java system properties to be passed to the Aspectran application at runtime.
 set "ASPECTRAN_OPTS=-Daspectran.profiles.active=prod"
