@@ -56,7 +56,7 @@
         <maven.compiler.parameters>true</maven.compiler.parameters>
 
         <aspectran.version>9.6.5</aspectran.version>
-        <aspectow.console.version>4.1.0</aspectow.console.version>
+        <aspectow.version>4.1.0</aspectow.version>
     </properties>
 
     <repositories>
@@ -112,7 +112,7 @@
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectow-console</artifactId>
-            <version>${aspectow.console.version}</version>
+            <version>${aspectow.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aspectran</groupId>
