@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <included>
 
-    <!-- Undertow Access Logging -->
+    <!-- Server Access Logging (Netty, Undertow) -->
     <appender name="SIFT-ACCESSLOG" class="ch.qos.logback.classic.sift.SiftingAppender">
         <discriminator class="com.aspectran.logging.LoggingGroupDiscriminator">
             <key>LOGGING_GROUP</key>
@@ -24,6 +24,12 @@
         </sift>
     </appender>
 
+    <!-- Netty Access Logging -->
+    <logger name="com.aspectran.netty.accesslog" level="info" additivity="false">
+        <appender-ref ref="SIFT-ACCESSLOG"/>
+    </logger>
+
+    <!-- Undertow Access Logging -->
     <logger name="io.undertow.accesslog" level="info" additivity="false">
         <appender-ref ref="SIFT-ACCESSLOG"/>
     </logger>
