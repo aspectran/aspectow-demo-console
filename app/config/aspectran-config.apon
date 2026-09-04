@@ -72,7 +72,7 @@ shell: {
     )
     prompt: "{{green}}aspectow-demo>{{reset}} "
     commands: [
-        com.aspectran.undertow.shell.command.UndertowCommand
+        com.aspectran.netty.shell.command.NettyCommand
         com.aspectran.shell.command.builtins.TransletCommand
         com.aspectran.shell.command.builtins.AspectCommand
         com.aspectran.shell.command.builtins.JobCommand
@@ -114,7 +114,7 @@ daemon: {
         enabled: true
     }
     commands: [
-        com.aspectran.undertow.daemon.command.UndertowCommand
+        com.aspectran.netty.daemon.command.NettyCommand
         com.aspectran.daemon.command.builtins.InvokeActionCommand
         com.aspectran.daemon.command.builtins.TransletCommand
         com.aspectran.daemon.command.builtins.ComponentCommand

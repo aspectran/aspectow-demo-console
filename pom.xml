@@ -91,7 +91,7 @@
         </dependency>
         <dependency>
             <groupId>com.aspectran</groupId>
-            <artifactId>aspectran-with-undertow</artifactId>
+            <artifactId>aspectran-with-netty</artifactId>
             <version>${aspectran.version}</version>
         </dependency>
         <dependency>
