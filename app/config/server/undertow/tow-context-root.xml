@@ -46,12 +46,6 @@
                 <property name="loadOnStartup" valueType="int">1</property>
             </bean>
         </property>
-        <property name="webSocketServerContainerInitializer">
-            <bean class="com.aspectran.undertow.server.servlet.TowWebSocketServerContainerInitializer">
-                <property name="directBuffers" valueType="boolean">true</property>
-                <property name="bufferSize" valueType="int">16384</property>
-            </bean>
-        </property>
     </bean>
 
     <bean id="tow.context.root.sessionManager"
