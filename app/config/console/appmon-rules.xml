@@ -12,7 +12,14 @@
         </properties>
     </bean>
 
-    <bean class="com.aspectran.aspectow.demo.console.support.WhoisIPCountryResolver"/>
+    <bean class="com.aspectran.aspectow.appmon.common.support.MaxMindIPCountryResolver">
+        <properties profile="!prod">
+            <item name="databasePath">#{basePath}/config/console/mmdb/GeoIP2-Country-Test.mmdb</item>
+        </properties>
+        <properties profile="prod">
+            <item name="databasePath">/home/aspectran/mmdb/GeoLite2-Country.mmdb</item>
+        </properties>
+    </bean>
 
     <append file="/config/console/appmon-ext-persistence.xml" profile="appmon.ext-persistence"/>
 
