@@ -17,6 +17,7 @@
 
     <bean id="netty.server" class="com.aspectran.netty.server.DefaultNettyServer">
         <property name="virtualThreads" valueType="boolean">true</property>
+        <property name="proxyAddressForwarding" valueType="boolean">true</property>
         <property name="accessLogHandler">#{netty.server.handler.accessLogHandler}</property>
         <property name="encodingHandler">#{netty.server.handler.encodingHandler}</property>
         <property name="listeners" type="array">
@@ -34,7 +35,7 @@
     <bean id="netty.server.handler.accessLogHandler"
           class="com.aspectran.netty.server.handler.accesslog.NettyAccessLogHandler"
           scope="prototype">
-        <property name="formatString" tokenize="false">%t %a %{i,X-Forwarded-For} %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</property>
+        <property name="formatString" tokenize="false">%t %a %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</property>
         <property name="category">com.aspectran.netty.accesslog</property>
     </bean>
 
