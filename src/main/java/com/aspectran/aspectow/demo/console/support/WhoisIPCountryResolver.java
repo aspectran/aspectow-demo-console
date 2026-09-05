@@ -33,6 +33,7 @@ import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
 import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
 import org.apache.hc.core5.http.ClassicHttpRequest;
 import org.apache.hc.core5.http.HttpEntity;
+import org.apache.hc.core5.http.HttpHeaders;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.support.ClassicRequestBuilder;
 import org.apache.hc.core5.util.TimeValue;
@@ -178,7 +179,8 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
             ClassicRequestBuilder requestBuilder = ClassicRequestBuilder
                     .get()
                     .setCharset(StandardCharsets.UTF_8)
-                    .setUri(apiUrl + ipAddress);
+                    .setUri(apiUrl + ipAddress)
+                    .setHeader(HttpHeaders.ACCEPT, "application/json, text/json, */*");
 
             ClassicHttpRequest request = requestBuilder.build();
 
@@ -193,6 +195,23 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
                 HttpEntity entity = response.getEntity();
                 if (entity != null) {
                     String result = EntityUtils.toString(entity);
+                    if (result != null) {
+                        result = result.strip();
+                        if (result.startsWith("\uFEFF")) {
+                            result = result.substring(1).strip();
+                        }
+                    }
+                    if (!StringUtils.hasText(result) || !result.startsWith("{")) {
+                        if (logger.isDebugEnabled()) {
+                            String preview = (result != null ? result : "");
+                            if (preview.length() > 200) {
+                                preview = preview.substring(0, 200) + "...";
+                            }
+                            preview = preview.replaceAll("\\s+", " ").trim();
+                            logger.debug("WHOIS API returned non-JSON response for IP {}: {}", ipAddress, preview);
+                        }
+                        return FAILED;
+                    }
                     Parameters parameters = JsonToParameters.from(result);
                     Parameters whois = parameters.getParameters("whois");
                     if (whois != null) {
@@ -203,6 +222,15 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
                             }
                             return countryCode;
                         }
+                        Parameters error = whois.getParameters("error");
+                        if (error != null) {
+                            if (logger.isDebugEnabled()) {
+                                String errorCode = error.getString("error_code");
+                                String errorMsg = error.getString("error_msg");
+                                logger.debug("WHOIS API returned error for IP {}: [code: {}] {}", ipAddress, errorCode, errorMsg);
+                            }
+                            return FAILED;
+                        }
                     }
                     return NONE;
                 }
@@ -210,9 +238,12 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
             });
         } catch (Exception e) {
             if (logger.isDebugEnabled()) {
-                logger.debug("WHOIS IP lookup failed for {}: {}", ipAddress, e.getMessage(), e);
+                logger.debug("WHOIS IP lookup failed for {}: {}", ipAddress, e.getMessage());
             } else {
                 logger.warn("WHOIS IP lookup failed for {}: {}", ipAddress, e.getMessage());
+            }
+            if (logger.isTraceEnabled()) {
+                logger.trace("WHOIS IP lookup exception", e);
             }
             return FAILED;
         }
@@ -242,7 +273,7 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
                 .evictIdleConnections(TimeValue.ofSeconds(30))
                 .disableCookieManagement()
                 .disableAuthCaching()
-                .setUserAgent("Aspectran-AppMon/" + AboutMe.VERSION)
+                .setUserAgent("Mozilla/5.0 (compatible; Aspectran-AppMon/" + AboutMe.VERSION + ")")
                 .build();
     }
 
