@@ -34,9 +34,6 @@
             </bean>
         </property>
         <property name="servlets" type="array">
-            <bean class="com.aspectran.undertow.server.servlet.DefaultJspServlet">
-                <property name="loadOnStartup" valueType="int">0</property>
-            </bean>
             <bean class="com.aspectran.undertow.server.servlet.TowServlet">
                 <argument>webActivityServlet</argument>
                 <argument>com.aspectran.web.servlet.WebActivityServlet</argument>
@@ -55,20 +52,9 @@
             <bean class="com.aspectran.core.context.config.SessionManagerConfig">
                 <argument>
                     workerName: rn0
-                    maxActiveSessions: 9999
-                    maxIdleSeconds: 489
-                    evictionIdleSeconds: 258
-                    maxIdleSecondsForNew: 60
-                    evictionIdleSecondsForNew: 30
-                    scavengingIntervalSeconds: 90
-                    clusterEnabled: false
+                    maxActiveSessions: 100
+                    maxIdleSeconds: 300
                 </argument>
-            </bean>
-        </property>
-        <property name="sessionStore">
-            <bean class="com.aspectran.core.component.session.FileSessionStoreFactoryBean">
-                <property name="storeDir">%{system:aspectran.workPath:/work}/_sessions/%{tow.context.root.name}</property>
-                <property name="gracePeriodSecs" valueType="int">30</property>
             </bean>
         </property>
     </bean>
