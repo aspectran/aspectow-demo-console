@@ -7,7 +7,9 @@
         Aspectran configuration for setting up a Netty context.
     </description>
 
-    <bean id="netty.context.root" class="com.aspectran.netty.server.NettyContext">
+    <bean id="netty.context.root"
+          class="com.aspectran.netty.server.NettyContext"
+          scope="prototype">
         <property name="contextPath">/</property>
         <property name="sessionManager">#{netty.context.root.sessionManager}</property>
     </bean>
