@@ -136,6 +136,7 @@ web: {
     defaultServletName: none
     trailingSlashRedirect: true
     legacyHeadHandling: true
+    proxyAddressForwarding: true
     acceptable: {
         +: /**
     }
