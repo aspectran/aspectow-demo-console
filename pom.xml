@@ -57,6 +57,7 @@
 
         <aspectran.version>9.7.2-SNAPSHOT</aspectran.version>
         <aspectow.version>4.2.0-SNAPSHOT</aspectow.version>
+        <netty.version>4.2.18.Final</netty.version>
     </properties>
 
     <repositories>
@@ -216,4 +217,25 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>macos-arm64-dns</id>
+            <activation>
+                <os>
+                    <family>mac</family>
+                    <arch>aarch64</arch>
+                </os>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-resolver-dns-native-macos</artifactId>
+                    <version>${netty.version}</version>
+                    <classifier>osx-aarch_64</classifier>
+                    <scope>runtime</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+    </profiles>
 </project>
