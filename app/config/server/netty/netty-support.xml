@@ -4,7 +4,7 @@
 <aspectran>
 
     <bean id="sessionListenerRegistration"
-          class="com.aspectran.netty.support.SessionListenerRegistrationBean" lazyInit="true">
+          class="com.aspectran.core.component.session.DefaultSessionListenerRegistration" lazyInit="true">
         <argument>netty.server</argument>
         <argument>root</argument>
     </bean>
