@@ -14,6 +14,7 @@ app: {
         target: console
         parameters: {
             +: /**
+            -: /nodes/**/ping        # Ignore ping requests
             -: /nodes/**/polling/**  # Ignore polling requests
         }
     }
