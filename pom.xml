@@ -74,26 +74,34 @@
         </repository>
     </repositories>
 
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.aspectran</groupId>
+                <artifactId>aspectran-bom</artifactId>
+                <version>${aspectran.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-logging</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-daemon</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-shell-jline</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-with-netty</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>io.netty</groupId>
@@ -104,12 +112,10 @@
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-rss-lettuce</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-with-thymeleaf</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>nz.net.ultraq.thymeleaf</groupId>
@@ -124,7 +130,6 @@
         <dependency>
             <groupId>com.aspectran</groupId>
             <artifactId>aspectran-with-mybatis</artifactId>
-            <version>${aspectran.version}</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
