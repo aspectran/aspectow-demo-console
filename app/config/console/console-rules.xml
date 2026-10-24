@@ -4,6 +4,8 @@
 <aspectran>
 
     <environment>
+        <property name="aspectow.console.auth.rememberMe.enabled" valueType="boolean">true</property>
+        <property name="aspectow.console.auth.rememberMe.tokenValiditySeconds">30d</property> <!-- Token validity set to 30 days -->
         <properties profile="prod">
             <item name="aspectow.console.portalUrl">https://public.aspectran.com/</item>
         </properties>
