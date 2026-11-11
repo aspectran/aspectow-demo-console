@@ -15,7 +15,7 @@
  */
 package com.aspectran.aspectow.demo.console.demo;
 
-import com.aspectran.aspectow.node.manager.NodeManager;
+import com.aspectran.aspectow.node.manager.NodeManagerHolder;
 import com.aspectran.core.component.bean.annotation.Bean;
 import com.aspectran.core.component.bean.annotation.Component;
 import com.aspectran.core.component.bean.annotation.Job;
@@ -23,10 +23,8 @@ import com.aspectran.core.component.bean.annotation.Request;
 import com.aspectran.core.component.bean.annotation.Schedule;
 import com.aspectran.core.component.bean.annotation.SimpleTrigger;
 import com.aspectran.core.component.bean.annotation.Transform;
-import com.aspectran.core.context.ActivityContext;
 import com.aspectran.core.context.rule.type.FormatType;
 import com.aspectran.core.context.rule.type.MisfirePolicy;
-import com.aspectran.core.service.CoreServiceHolder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +45,7 @@ import java.util.concurrent.atomic.AtomicInteger;
                 misfirePolicy = MisfirePolicy.SMART_POLICY
         ),
         jobs = {
-                @Job(translet = "demo/schedule/count.job")
+                @Job(translet = "test/schedule/count.job")
         },
         disabled = true
 )
@@ -66,6 +64,9 @@ public class CountSchedule {
     @Request("test/schedule/count.job")
     @Transform(FormatType.TEXT)
     public String count() {
+        if (nodeId == null || "Unknown".equals(nodeId)) {
+            resolveNodeId();
+        }
         int count = counter.incrementAndGet();
         String result = "NodeId: " + nodeId + ", Count: " + count;
         logger.info(result);
@@ -73,10 +74,9 @@ public class CountSchedule {
     }
 
     private void resolveNodeId() {
-        ActivityContext context = CoreServiceHolder.findActivityContext();
-        if (context != null) {
-            NodeManager nodeManager = context.getBeanRegistry().getBean(NodeManager.class);
-            nodeId = nodeManager.getNodeId();
+        String id = NodeManagerHolder.getNodeId();
+        if (id != null) {
+            nodeId = id;
         } else {
             nodeId = "Unknown";
         }
