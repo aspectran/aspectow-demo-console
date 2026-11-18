@@ -3,9 +3,15 @@
         "https://aspectran.com/dtd/aspectran-9.dtd">
 <aspectran>
 
+    <!--
+        Master environment properties for the Aspectow Console application.
+    -->
     <environment>
+        <!-- Enables or disables "Remember Me" persistent authentication on the login screen -->
         <property name="aspectow.console.auth.rememberMe.enabled" valueType="boolean">true</property>
-        <property name="aspectow.console.auth.rememberMe.tokenValiditySeconds">30d</property> <!-- Token validity set to 30 days -->
+        <!-- Validity duration of persistent "Remember Me" authentication tokens (e.g., 30d, 7d, 86400s) -->
+        <property name="aspectow.console.auth.rememberMe.tokenValiditySeconds">30d</property>
+        <!-- External base URL of the Aspectow Portal service (resolved from system property or environment variable) -->
         <properties profile="prod">
             <item name="aspectow.console.portalUrl">https://public.aspectran.com/</item>
         </properties>
@@ -14,7 +20,14 @@
         </properties>
     </environment>
 
+    <!--
+        Modular sub-configurations:
+        - node-rules.xml: Cluster topology, Redis connection pool, and distributed node management
+        - appmon-rules.xml: AppMon (Application & Access Monitoring) engine and GeoIP resolver
+        - notification-rules.xml: In-app notification center, monitoring alert evaluator, and Web Push
+    -->
     <append file="/config/console/node-rules.xml"/>
     <append file="/config/console/appmon-rules.xml"/>
+    <append file="/config/console/notification-rules.xml"/>
 
 </aspectran>

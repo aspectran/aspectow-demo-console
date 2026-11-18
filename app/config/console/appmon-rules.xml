@@ -3,6 +3,17 @@
         "https://aspectran.com/dtd/aspectran-9.dtd">
 <aspectran>
 
+    <!--
+        Resolves AppMon (Application Performance & Access Monitoring) engine configuration.
+        Dynamically selects the APON configuration based on the active environment (dev/prod)
+        and embedded server runtime (Netty or Undertow):
+        - Netty (Default):
+          - Development: /config/console/appmon-config.apon
+          - Production:  /config/console/appmon-config-prod.apon
+        - Undertow (activated via 'undertow' profile):
+          - Development: /config/console/appmon-config-undertow.apon
+          - Production:  /config/console/appmon-config-undertow-prod.apon
+    -->
     <bean class="com.aspectran.aspectow.appmon.engine.config.AppMonConfigResolver">
         <properties profile="!prod">
             <item name="configLocation">/config/console/appmon-config.apon</item>
@@ -12,6 +23,12 @@
         </properties>
     </bean>
 
+    <!--
+        MaxMind GeoIP2 country resolver for client IP geolocation.
+        - Translates visitor IP addresses into country codes for real-time dashboard analytics.
+        - 'dev' profile uses the bundled test database (GeoIP2-Country-Test.mmdb).
+        - For production, place the official MaxMind GeoLite2/GeoIP2 Country binary database (.mmdb) in your config path.
+    -->
     <bean class="com.aspectran.aspectow.appmon.common.support.MaxMindIPCountryResolver">
         <properties profile="!prod">
             <item name="databasePath">#{basePath}/config/console/mmdb/GeoIP2-Country-Test.mmdb</item>

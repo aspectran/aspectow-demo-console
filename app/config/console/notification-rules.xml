@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE aspectran PUBLIC "-//ASPECTRAN//DTD Aspectran 9.0//EN"
+        "https://aspectran.com/dtd/aspectran-9.dtd">
+<aspectran>
+
+    <environment>
+        <!-- Master switch for the notification system (UI notification center, in-app history, and monitoring alerts) -->
+        <property name="aspectow.console.notification.enabled" valueType="boolean">true</property>
+        <!-- Enables or disables external Web Push dispatching (set to false in air-gapped/firewalled environments to block FCM/APNs traffic) -->
+        <property name="aspectow.console.notification.webPush.enabled" valueType="boolean">true</property>
+    </environment>
+
+    <!-- Web Push Manager (handles RFC 8291/8292 payload encryption and HTTP/2 communication with push services) -->
+    <bean id="webPushManager" class="com.aspectran.aspectow.console.notification.WebPushManager"/>
+
+    <!-- Unified notification service (in-app history persistence, user preference management, and async dispatching) -->
+    <bean id="notificationService" class="com.aspectran.aspectow.console.notification.NotificationServiceImpl"/>
+
+    <!-- System monitoring alert evaluator (monitors cluster node membership and resource usage thresholds) -->
+    <bean id="monitoringAlertEvaluator" class="com.aspectran.aspectow.console.notification.alert.MonitoringAlertEvaluator"/>
+
+</aspectran>
