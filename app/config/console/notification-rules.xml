@@ -8,6 +8,8 @@
         <property name="aspectow.console.notification.enabled" valueType="boolean">true</property>
         <!-- Enables or disables external Web Push dispatching (set to false in air-gapped/firewalled environments to block FCM/APNs traffic) -->
         <property name="aspectow.console.notification.webPush.enabled" valueType="boolean">true</property>
+        <!-- VAPID contact URI (RFC 8292 'sub' claim: mailto: or https:// URL) for push service operators -->
+        <property name="aspectow.console.notification.webPush.subject">mailto:aspectran@gmail.com</property>
     </environment>
 
     <!-- Web Push Manager (handles RFC 8291/8292 payload encryption and HTTP/2 communication with push services) -->
