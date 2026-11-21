@@ -55,9 +55,9 @@
         <maven.compiler.release>21</maven.compiler.release>
         <maven.compiler.parameters>true</maven.compiler.parameters>
 
-        <aspectran.version>9.8.4-SNAPSHOT</aspectran.version>
-        <aspectow.version>4.3.2-SNAPSHOT</aspectow.version>
-        <netty.version>4.2.20.Final</netty.version>
+        <aspectran.version>9.8.4</aspectran.version>
+        <aspectow.version>4.4.0</aspectow.version>
+        <netty.version>4.2.21.Final</netty.version>
     </properties>
 
     <repositories>
