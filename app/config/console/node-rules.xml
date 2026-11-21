@@ -3,6 +3,11 @@
         "https://aspectran.com/dtd/aspectran-9.dtd">
 <aspectran>
 
+    <!--
+        Resolves cluster topology and node communication configuration.
+        - 'direct' profile: Directly connects nodes within the cluster network (/config/console/node-config-direct.apon)
+        - default ('!direct'): Routes communications through an API Gateway (/config/console/node-config-gateway.apon)
+    -->
     <bean class="com.aspectran.aspectow.node.config.NodeConfigResolver">
         <properties profile="!prod">
             <item name="configLocation">/config/console/node-config.apon</item>
@@ -12,6 +17,12 @@
         </properties>
     </bean>
 
+    <!--
+        Configures the Redis connection pool used for cluster coordination, node discovery,
+        distributed locks, and heartbeat monitoring.
+        - 'prod' profile: Loads production settings from /config/console/redis-prod.properties
+        - default ('!prod'): Loads development/staging settings from /config/console/redis-dev.properties
+    -->
     <bean id="redisConnectionPoolConfig" class="com.aspectran.aspectow.node.redis.RedisConnectionPoolConfig">
         <argument>
             <bean class="com.aspectran.core.support.PropertiesFactoryBean">
@@ -32,14 +43,22 @@
         </argument>
     </bean>
 
+    <!--
+        Node Manager Factory Bean that bootstraps and manages the distributed cluster lifecycle.
+        - Coordinates membership, heartbeats, and cluster events across nodes via Redis.
+        - lazyDestroy="true" ensures graceful departure from the cluster during container shutdown.
+    -->
     <bean id="nodeManager" class="com.aspectran.aspectow.node.manager.NodeManagerFactoryBean" lazyDestroy="true">
         <property name="redisConnectionPoolConfig">#{redisConnectionPoolConfig}</property>
     </bean>
 
+    <!-- Manages remote cluster node state, health checking, and metric retrieval -->
     <bean id="remoteNodeManager" class="com.aspectran.aspectow.node.management.nodes.RemoteNodeManager"/>
 
+    <!-- Dispatches and coordinates remote commands across target cluster nodes -->
     <bean id="remoteCommandManager" class="com.aspectran.aspectow.node.management.commands.RemoteCommandManager"/>
 
+    <!-- Coordinates distributed scheduler job execution and trigger events across cluster nodes -->
     <bean id="remoteSchedulerManager" class="com.aspectran.aspectow.node.management.scheduler.RemoteSchedulerManager"/>
 
 </aspectran>
