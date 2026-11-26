@@ -111,10 +111,10 @@
           scope="prototype">
         <property name="category">io.undertow.accesslog</property>
         <properties profile="prod">
-            <item name="formatString" tokenize="false">%t %{i,X-Forwarded-For} %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</item>
+            <item name="formatString" tokenize="false">%t %{i,X-Forwarded-For} %S "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</item>
         </properties>
         <properties profile="!prod">
-            <item name="formatString" tokenize="false">%t %a %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</item>
+            <item name="formatString" tokenize="false">%t %a %S "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</item>
         </properties>
     </bean>
 

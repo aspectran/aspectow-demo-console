@@ -35,7 +35,7 @@
     <bean id="netty.server.handler.accessLogHandler"
           class="com.aspectran.netty.server.handler.accesslog.NettyAccessLogHandler"
           scope="prototype">
-        <property name="formatString" tokenize="false">%t %a %{c,JSESSIONID} "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</property>
+        <property name="formatString" tokenize="false">%t %a %S "%r" %s %b "%{i,Referer}" "%{i,User-Agent}"</property>
         <property name="category">com.aspectran.netty.accesslog</property>
     </bean>
 
