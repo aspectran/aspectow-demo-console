@@ -152,7 +152,7 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
 
     @Override
     @Nullable
-    public String resolveCountryCode(String ipAddress, @Nullable Locale locale) {
+    public String resolveCountryCode(String ipAddress) {
         Assert.notNull(ipAddress, "ipAddress must not be null");
 
         String ip6 = IpAddressUtils.normalizeIPv6(ipAddress);
@@ -161,12 +161,12 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
         }
 
         if (cache == null || !StringUtils.hasText(apiUrl) || isPrivateOrLocalIp(ipAddress)) {
-            return getCountryCode(locale);
+            return null;
         }
 
         String countryCode = cache.get(ipAddress);
         if (countryCode == null || NONE.equals(countryCode) || FAILED.equals(countryCode)) {
-            countryCode = getCountryCode(locale);
+            return null;
         }
         return countryCode;
     }
@@ -303,17 +303,12 @@ public class WhoisIPCountryResolver implements IPCountryResolver, DisposableBean
         return false;
     }
 
-    @Nullable
-    private String getCountryCode(Locale locale) {
-        return (locale != null ? locale.getCountry() : null);
-    }
-
     public static void main(String[] args) throws Exception {
         WhoisIPCountryResolver ipCountryResolver = new WhoisIPCountryResolver();
-        System.out.println(ipCountryResolver.resolveCountryCode("103.99.216.86", Locale.KOREA));
-        System.out.println(ipCountryResolver.resolveCountryCode("103.99.216.999", Locale.KOREA));
-        System.out.println(ipCountryResolver.resolveCountryCode("0:0:0:0:0:0:0:1", Locale.KOREA));
-        System.out.println(ipCountryResolver.resolveCountryCode("2a01:6502:a56:4735::1", Locale.KOREA));
+        System.out.println(ipCountryResolver.resolveCountryCode("103.99.216.86"));
+        System.out.println(ipCountryResolver.resolveCountryCode("103.99.216.999"));
+        System.out.println(ipCountryResolver.resolveCountryCode("0:0:0:0:0:0:0:1"));
+        System.out.println(ipCountryResolver.resolveCountryCode("2a01:6502:a56:4735::1"));
         ipCountryResolver.destroy();
     }
 
